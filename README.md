@@ -22,3 +22,36 @@ JunLeBao-云服务/\
 &emsp;&emsp;PyVRP 类：封装了 PyVRP 求解器的接口，用于求解 VRP 问题。\
 &emsp;&emsp;Solver 类：项目的主要流程。\
 &emsp;&emsp;vrp_flask.py：Flask 应用的入口点，提供了一个 web 服务接口来接收请求并返回解决方案。
+
+
+# Git代码管理
+
+注：代码运行系统为Linux，每次拉取和上传代码都先上传到develop分支，然后申请一个`pull requsts`，管理员审核后再把代码合并到main分支上
+
+## 克隆仓库代码
+
+```bash
+git clone git@github.com:zp1008611/JunLeBaolatest.git
+```
+
+
+## 每次进行本地代码开发前需要做：
+1. 本地切换分支
+
+    ```bash
+    git switch develop
+    ```
+
+2. 拉取代码
+
+    ```bash
+    git pull origin develop
+    ```
+
+## 开发后上传代码
+
+```
+git add .
+git commit -m "提交信息"
+git push -u origin develop
+```
