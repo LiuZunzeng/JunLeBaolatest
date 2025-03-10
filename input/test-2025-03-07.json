@@ -1,0 +1,120 @@
+{
+    "dispatchId": "DIS0001",
+    "config": {
+        "DELIVERY_LOADING_SPEED": 1.5,
+        "DELIVERY_STAY_MINUTE": 5,
+        "ROS_VEHICLE_SPEED": 50,
+        "ROS_SPLIT_ORDER": "Y",
+        "ROS_NORMAL_TEMPERATURE_RATIO": 0.90
+    },
+    "depots": [
+        {
+            "branchId": "WH01",
+            "branchDescr": "张江物流中⼼",
+            "longitude": "121.50389",
+            "latitude": "31.29665",
+            "notes": "说明",
+            "branch_status": "0"
+        }
+    ],
+    "dispatchZone": [
+        {
+            "dispatchZoneCode": "DISZONE001",
+            "departureWave": "0:00-1:00,2:00-4:00",
+            "longitude": "121.50389",
+            "latitude": "31.29665",
+            "vehicleType": [
+                {
+                    "vehicleTypeId": "Type1",
+                    "vehicleTypeDescr1": "9.6米车型",
+                    "loadCapacityMin": 10.0,
+                    "loadCapacity": 16.0,
+                    "capacity": 40.0,
+                    "temperatureType": "冷藏"
+                }
+            ],
+            "vehicle" : [
+                {
+                    "vehicleId": "VE0000000215",
+                    "licensePlateNo": "沪A88888",
+                    "vehicleType": "Type1",
+                    "pri": 1,
+                    "capacityLength": 9.6,
+                    "capacityWidth": 2.3,
+                    "capacityHeight": 2.3,
+                    "maxVolume": 40.0,
+                    "maxWeight": 16.0,
+                    "maxQty": 100,
+                    "maxMoney": 100.0,
+                    "mileageCost": 1.0,
+                    "workingTime": "06:00-17:00",
+                    "returnFlag": "0"
+                }
+            ],
+            "tariff": [
+                {
+                    "tariffID": "JLB-JT-202410-00098",
+                    "offeringType": "整车运输",
+                    "shipperProvince": "河北",
+                    "shipperCity": "石家庄",
+                    "shipperDistrict": "",
+                    "consigneeProvince": "山东",
+                    "consigneeCity": "济南",
+                    "consigneeDistrict": "",
+                    "temperatureType": "冷藏",
+                    "mileage": 399.0,
+                    "rateBase": "吨公里",
+                    "initialRate": 0.650
+                }
+            ]
+        }
+    ],
+    "orders": [
+        {
+            "dispatchZoneCode": "DISZONE001",
+            "taskNo": "PO001-2",
+            "orderNo": "PO001",
+            "DC": "WH01",
+            "orderType": "D",
+            "createTime": "2025-03-04T10:00",
+            "qty": 10,
+            "weight": 15.5,
+            "cubic": 42.7,
+            "money": 100.0,
+            "bulkFlag": 1,
+            "routeNo": "",
+            "routeNoNext": "",
+            "offeringType": "汽运",
+            "temperatureClass": "冷藏",
+            "addressNo": "ADDR001",
+            "address": "上海市杨浦区邯郸路某某号",
+            "timeWindowFrom": "00:00",
+            "timeWindowTo": "23:59",
+            "vehicleCategory": "type1, type2",
+            "longitude": "121.50389",
+            "latitude": "31.29665",
+            "consigneeId": "A001",
+            "companyClass": "0点",
+            "availableVehicleType": "type1, type2",
+            "vehicleCategoryCus": "type1, type2",
+            "unloadingTimeWindow": "8:00-12:00,14:00-18:00",
+            "nonUnloadingTimeWindow": "12:00-14:00,18:00-24:00",
+            "leadTime": 36.0,
+            "SDD": "1, 2, 3",
+            "ordersDetails":[
+                {
+                    "taskNo": "PO001-2",
+                    "taskLineNo": "1",
+                    "sku": "210001",
+                    "skuDescr1": "老酸奶",
+                    "qty": 2,
+                    "weight": 2.0,
+                    "cubic": 6.2,
+                    "temperatureType": "冷藏",
+                    "grossWeight": 1.0,
+                    "cube": 3.1
+                }
+            ]
+        }
+    ]
+}
