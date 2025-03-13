@@ -4,9 +4,9 @@ from pyvrp import Model
 import numpy as np
 from data import Data
 
-class PyVRP:
+class VrpSolver:
     '''
-        使用混合遗传算法求解VRPTW问题
+    使用pyvrp里面的混合遗传算法或ortools里面的routingModel求解VRPTW问题(多时间窗)
     '''
     def __init__(self,
                  config: dict,
@@ -107,7 +107,7 @@ class PyVRP:
         self.distance_matrix = distance_matrix
         self.solution_status = 0
 
-    def build_model(self):
+    def build_model_by_pyvrp(self):
         """
         将必要的信息传入pyvrp的model类当中
         """
@@ -152,7 +152,7 @@ class PyVRP:
 
             return total_minutes
 
-        self.m = Model()
+        self.m1 = Model()
 
         for i in range(len(self.vehicles)):
             if self.departureWave == "":
@@ -161,18 +161,18 @@ class PyVRP:
                 tw_begin = time_to_minutes(self.departureWave)
 
             if self.vehicles[i]["maxWeight"] >= 0 or weight_or_cubic(self.orders) == 0:
-                self.m.add_vehicle_type(capacity=self.vehicles[i]["maxWeight"] * 10000,
+                self.m1.add_vehicle_type(capacity=self.vehicles[i]["maxWeight"] * 10000,
                                    name=self.vehicles[i]["vehicleId"],
                                    tw_early=tw_begin,
                                    unit_distance_cost=self.vehicles[i]["mileageCost"])
 
             elif self.vehicles[i]["maxVolume"] >= 0 or weight_or_cubic(self.orders) == 1:
-                self.m.add_vehicle_type(capacity=self.vehicles[i]["maxVolume"] * 10000,
+                self.m1.add_vehicle_type(capacity=self.vehicles[i]["maxVolume"] * 10000,
                                        name=self.vehicles[i]["vehicleId"],
                                        tw_early=tw_begin,
                                        unit_distance_cost=self.vehicles[i]["mileageCost"])
 
-        depot = self.m.add_depot(x=self.depot["latitude"], y=self.depot["longitude"], name=self.depot["branchId"])
+        depot = self.m1.add_depot(x=self.depot["latitude"], y=self.depot["longitude"], name=self.depot["branchId"])
 
         weight_or_cubic = weight_or_cubic(self.orders)
         clients = []
@@ -187,7 +187,7 @@ class PyVRP:
 
             if self.orders[i]["weight"] >= 0 or weight_or_cubic == 0:
                 #print(self.data.orders[i]["lonLat"][0])
-                client = self.m.add_client(x=self.orders[i]["lonLat"][0],
+                client = self.m1.add_client(x=self.orders[i]["lonLat"][0],
                                   y=self.orders[i]["lonLat"][1],
                                   delivery=self.orders[i]["weight"],
                                   service_duration = self.orders[i]["weight"] /self.config["DELIVERY_LOADING_SPEED"],
@@ -196,7 +196,7 @@ class PyVRP:
                                   name=self.orders[i]['orderNo'])
 
             '''if self.data.orders[i]["cubic"] >= 0 or weight_or_cubic == 1:
-                self.m.add_client(x=self.data.orders[i]["lonLat"][0],
+                self.m1.add_client(x=self.data.orders[i]["lonLat"][0],
                                   y=self.data.orders[i]["lonLat"][1],
                                   delivery=self.data.orders[i]["cubic"],
                                   service_duration = self.data.orders[i]["cubic"]/self.data.config["LOADING_SPEED"],
@@ -210,9 +210,9 @@ class PyVRP:
             for to in locations:
                 distance = self.distance_matrix[frm.name, to.name] * 10000  # Manhattan
                 duration = (self.distance_matrix[frm.name, to.name] * 60)/self.config["ROS_VEHICLE_SPEED"]
-                self.m.add_edge(frm, to, distance=distance,  duration = duration)
+                self.m1.add_edge(frm, to, distance=distance,  duration = duration)
 
-    def solve(self):
+    def solve_by_pyvrp(self):
         """
         调用pyvrp当中的混合遗传算法进行求解
         return Result
@@ -222,10 +222,29 @@ class PyVRP:
             num_iterations: int
             runtime: float
         """
-        res = self.m.solve(stop=MaxRuntime(10), display=True)
+        res = self.m1.solve(stop=MaxRuntime(10), display=True)
         if res.is_feasible():
             self.solution_status = "feasible"
         else:
             self.solution_status = 'infeasible'
         return res
+
+    def build_model_by_ortools(self):
+        '''
+        把必要信息传入ortools中routingModel的相关类中
+        Returns None
+        '''
+        return None
+    def solve_by_ortools(self):
+        '''
+        ortools中的routingModel有各种各样的启发式，可以尝试各种排列组合。
+        当此类方法开发完成，可以进行以下三组比较实验：
+        1. 针对不考虑车型订单匹配的单时间窗VRPTW：pyvrp vs routingModel
+        2. 针对考虑车型订单匹配的单时间窗VRPTW：orderVehicleMatcher + pyvrp vs routingModel
+        3. 针对考虑车型订单匹配的多时间窗VRPTW：orderVehicleMatcher + pyvrp（需对源码二次开发） vs routingModel
+        Returns
+        '''
+        return None
+
+
 
