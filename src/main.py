@@ -5,7 +5,7 @@
 @File:main.py.py
 """
 from data import Data
-from pyVRP import PyVRP
+from vrpSolver import VrpSolver
 from solution import Solution
 import json
 import time
@@ -25,25 +25,21 @@ class Solver:
         主流程:
             遍历self.data.orders列表：
                 如果所有订单允许的车辆类型都一样：
-                    那么直接进入排线模块PyVRP，
+                    那么直接进入排线模块vrpSolver，
                 否则：
                     进入订单车辆匹配模块orderVehicleMatcher
         '''
         self.data.calculate_distance()
         for item in self.data.dispatchZone:
-            depot = None
-            for item1 in self.data.depots:
-                if item1['longitude'] == item['longitude'] and item1['latitude'] == item['latitude']:
-                    depot = item1
 
-            p = PyVRP(config=self.data.config,
-                      departure_wave= item['departureWave'],
-                      depot= depot,
-                      orders= item['orders'],
-                      vehicles= item['vehicle'],
-                      tariff= item['tariff'],
-                      distance_matrix=self.data.distance_matrix
-                      )
+            p = VrpSolver(config=self.data.config,
+                          departure_wave= item['departureWave'],
+                          depot= depot,
+                          orders= item['orders'],
+                          vehicles= item['vehicle'],
+                          tariff= item['tariff'],
+                          distance_matrix=self.data.distance_matrix
+                          )
             #p.build_model()
             print(f"\n=========================开始求解{item['dispatchZoneCode']}区域的调度=========================\n")
             #res = p.solve()
