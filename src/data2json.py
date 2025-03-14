@@ -416,7 +416,7 @@ def savejson(data,file_path):
 
 if __name__ == "__main__":
     excel_file = pd.ExcelFile('../input_xlsx/data_template_v1.2.xlsx')
-    json_file_path = f'../input/test-{datetime.today()}.json'
+    json_file_path = f'../input/test-{datetime.now().year}-{datetime.now().month}-{datetime.now().day}.json'
     processor = ExcelDataProcessor(excel_file)
     processor.process_config()
     # print(processor.config)
