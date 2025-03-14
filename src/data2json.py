@@ -400,7 +400,7 @@ class ExcelDataProcessor:
             datedic = {'周一': 1, '周二': 2, '周三': 3, '周四': 4, '周五': 5, '周六': 6, '周日': 7}
             order["SDD"] = (','.join(str(i) for i in range(datedic[orders_info['卸货周期（星期几可以收货）'].split('-')[0]], 
                                                         datedic[orders_info['卸货周期（星期几可以收货）'].split('-')[1]] + 1)))
-            order["qty"], order["weight"], order["cubic"], order["order_detail_list"] = self.__order_detail_generate(order["orderNo"])
+            order["qty"], order["weight"], order["cubic"], order["orderDetails"] = self.__order_detail_generate(order["orderNo"])
             self.orders.append(order)
 
 def savejson(data,file_path):
